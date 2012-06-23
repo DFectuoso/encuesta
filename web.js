@@ -1,6 +1,6 @@
 var express = require('express');
 var oauth = require('oauth');
-var sys = require('sys');
+var sys = require('util');
 
 var _twitterConsumerKey = "CnBeavwDfHUzYeOIPkvA";
 var _twitterConsumerSecret = "PVdLn1eilJwnriAWI5euVIRfnqipZzfTtfAZs4TmY";

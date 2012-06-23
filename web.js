@@ -1,6 +1,7 @@
 var express = require('express');
 var oauth = require('oauth');
 var sys = require('util');
+var pg = require('pg');
 
 var _twitterConsumerKey = "CnBeavwDfHUzYeOIPkvA";
 var _twitterConsumerSecret = "PVdLn1eilJwnriAWI5euVIRfnqipZzfTtfAZs4TmY";
@@ -64,6 +65,15 @@ app.get('/sessions/callback', function(req, res){
       req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
       // Right here is where we would write out some nice user stuff
       consumer().get("http://twitter.com/account/verify_credentials.json", req.session.oauthAccessToken, req.session.oauthAccessTokenSecret, function (error, data, response) {
+        pg.connect(process.env.DATABASE_URL, function(err, client) {
+          var query = client.query('INSERT INTO votes VALUES (3, \'DFect\');');
+
+          query.on('row', function(row) {
+            console.log(JSON.stringify(row));
+          });
+        });
+
+
         if (error) {
           res.send("Error getting twitter screen name : " + sys.inspect(error), 500);
         } else {
